@@ -62,25 +62,27 @@ const previous = async () => {
 };
 </script>
 <template>
-  <section class="py-24 mx-auto">
+  <section>
     <div class="flex justify-between py-2 max-w-3xl mx-auto">
       <button
         @click="router.push('/')"
         class="py-2 px-4 border-2 rounded-lg hover:bg-slate-100 group"
       >
-        <span class="text-gray-500 group-hover:text-black"> Back </span>
+        <span class="text-gray-500 group-hover:text-black">Back</span>
       </button>
       <div class="flex gap-2">
         <button
           v-if="route.params.id != '1'"
           @click="previous"
           class="py-2 px-4 border-2 rounded-lg group hover:bg-slate-100"
+          aria-label="previous"
         >
           <CaretLeft class="h-6 w-6 text-gray-500 group-hover:text-black" />
         </button>
         <button
           @click="next"
           class="py-2 px-4 border-2 rounded-lg group hover:bg-slate-100"
+          aria-label="next"
         >
           <CaretRight class="h-6 w-6 text-gray-500 group-hover:text-black" />
         </button>
@@ -89,55 +91,43 @@ const previous = async () => {
     <SpinnerComponent v-if="pending" class="block mx-auto" />
     <div
       v-if="!pending"
-      class="max-w-3xl mx-auto rounded-lg border-2 border-gray-200 border-opacity-50"
+      class="max-w-3xl mx-auto rounded-lg border-2 border-gray-200"
     >
       <div class="px-4 py-5 sm:px-6">
         <h3 class="text-lg font-extrabold text-gray-900">
           {{ GoTHouse.name }}
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Detailed house information
-        </p>
+        <p class="text-gray-500">Detailed information</p>
       </div>
-      <div class="border-t border-gray-200">
+      <div class="border-t-2 border-gray-200 rounded-b-lg">
         <dl>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm font-bold">Lord</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <div class="bg-gray-50 table-entry">
+            <dt class="font-bold">Lord</dt>
+            <dd class="mt-1 text-gray-900 sm:col-span-2">
               {{ GoTHouse.currentLord || '-' }}
             </dd>
           </div>
-          <div
-            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm font-bold">Region</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <div class="bg-white table-entry">
+            <dt class="font-bold">Region</dt>
+            <dd class="mt-1 text-gray-900 sm:col-span-2">
               {{ GoTHouse.region || '-' }}
             </dd>
           </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm font-bold">Coat of Arms</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <div class="bg-gray-50 table-entry">
+            <dt class="font-bold">Coat of Arms</dt>
+            <dd class="mt-1 text-gray-900 sm:col-span-2">
               {{ GoTHouse.coatOfArms || '-' }}
             </dd>
           </div>
-          <div
-            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm font-bold">Words</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <div class="bg-white table-entry">
+            <dt class="font-bold">Words</dt>
+            <dd class="mt-1 text-gray-900 sm:col-span-2">
               {{ GoTHouse.words || '-' }}
             </dd>
           </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm font-bold">Titles</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <div class="bg-gray-50 table-entry rounded-b-lg">
+            <dt class="font-bold">Titles</dt>
+            <dd class="mt-1 text-gray-900 sm:col-span-2">
               <ul>
                 <li v-for="value in GoTHouse.titles">{{ value || '-' }}</li>
               </ul>
@@ -148,3 +138,9 @@ const previous = async () => {
     </div>
   </section>
 </template>
+
+<style scoped lang="postcss">
+.table-entry {
+  @apply px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6;
+}
+</style>
