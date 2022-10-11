@@ -24,7 +24,7 @@ const props = defineProps({
       class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col hover:bg-slate-100"
     >
       <div class="flex-grow">
-        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+        <h2 class="text-lg font-extrabold mb-3">
           {{ name }}
         </h2>
         <dl>
