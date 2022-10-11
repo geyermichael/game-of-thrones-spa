@@ -19,9 +19,9 @@ const props = defineProps({
 });
 </script>
 <template>
-  <div class="p-4 lg:w-1/3 md:w-full">
+  <div class="p-4 lg:w-1/3 md:w-full cursor-pointer">
     <div
-      class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col"
+      class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col hover:bg-slate-100"
     >
       <div class="flex-grow">
         <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
@@ -42,8 +42,12 @@ const props = defineProps({
           </div>
         </dl>
 
-        <a class="mt-3 text-red-800 inline-flex items-center"
-          >More About
+        <a
+          class="inline-flex justify-center mt-3 text-red-800 items-center cursor-pointer group"
+        >
+          <span class="group-hover:mr-1 transition-all ease-out"
+            >More About</span
+          >
           <svg
             fill="none"
             stroke="currentColor"
