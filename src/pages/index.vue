@@ -61,32 +61,31 @@ const navigateToHouse = (url: string) => {
   router.push(`/house/${id}`);
 };
 </script>
+
 <template>
   <section>
-    <div class="py-24 mx-auto flex flex-wrap">
-      <SpinnerComponent v-if="pending" class="block mx-auto" />
-      <div v-if="!pending" class="flex flex-wrap -m-4">
-        <CardComponent
-          v-for="house in GoTHouses"
-          :name="house.name"
-          :current-lord="house.currentLord"
-          :region="house.region"
-          :words="house.words"
-          @click="navigateToHouse(house.url)"
-        />
-        <button
-          @click="loadMoreHouses"
-          class="flex justify-center items-center gap-2 mx-auto mt-16 text-white bg-red-600 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg"
-        >
-          <SpinnerComponent
-            v-if="isLoadingMore"
-            class="!text-white !h-5 !w-5"
-          />
-          <span>Load More</span>
-        </button>
-      </div>
+    <SpinnerComponent v-if="pending" class="block mx-auto" />
+    <div v-if="!pending" class="grid md:grid-cols-2 xl:grid-cols-3">
+      <CardComponent
+        v-for="house in GoTHouses"
+        tabindex="1"
+        :name="house.name"
+        :current-lord="house.currentLord"
+        :region="house.region"
+        :words="house.words"
+        @click="navigateToHouse(house.url)"
+        @keyup.enter="navigateToHouse(house.url)"
+      />
     </div>
+    <button @click="loadMoreHouses" id="load-more-btn">
+      <SpinnerComponent v-if="isLoadingMore" class="text-white h-5 w-5" />
+      <span>Load More</span>
+    </button>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped lang="postcss">
+#load-more-btn {
+  @apply flex items-center py-2 px-8 gap-2 mx-auto mt-12 text-white bg-red-800 border-0 hover:bg-red-700 rounded-lg;
+}
+</style>
