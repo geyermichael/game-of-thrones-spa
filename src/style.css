@@ -2,10 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/** FONTS */
+
 /**
  * @see https://fontmeme.com/fonts/game-of-thrones-font/
  */
 @font-face {
   font-family: 'GoT';
   src: url('./assets/fonts/got.ttf') format('truetype');
+}
+
+/* inter-regular - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/inter-v12-latin-regular.woff2') format('woff2'),
+    url('./assets/fonts/inter-v12-latin-regular.woff') format('woff');
+}
+/* inter-700 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./assets/fonts/inter-v12-latin-700.woff2') format('woff2'),
+    url('./assets/fonts/inter-v12-latin-700.woff') format('woff');
+}
+/* inter-900 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./assets/fonts/inter-v12-latin-900.woff2') format('woff2'),
+    url('./assets/fonts/inter-v12-latin-900.woff') format('woff');
+}
+
+@layer base {
+  html {
+    @apply font-primary;
+  }
 }

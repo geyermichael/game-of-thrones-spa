@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        got: ['GoT'],
+        got: ['GoT, ui-serif'],
+        primary: ['Inter', 'ui-sans-serif, system-ui'],
       },
     },
   },
