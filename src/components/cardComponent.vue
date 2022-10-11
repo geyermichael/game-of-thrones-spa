@@ -20,11 +20,11 @@ const props = defineProps({
 });
 </script>
 <template>
-  <div class="p-4 lg:w-1/3 md:w-1/2 cursor-pointer">
+  <div class="p-4 cursor-pointer h-full">
     <div
-      class="flex border-2 rounded-lg border-gray-200 p-8 sm:flex-row flex-col hover:bg-slate-100"
+      class="flex flex-col h-full p-8 border-2 rounded-lg border-gray-200 hover:bg-slate-100"
     >
-      <div class="flex-grow">
+      <div>
         <h2 class="text-lg font-extrabold mb-3">
           {{ name }}
         </h2>

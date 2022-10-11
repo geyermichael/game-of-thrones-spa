@@ -1,10 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TheHeader from './components/TheHeader.vue';
+</script>
 
 <template>
-  <header>
-    <h1 class="text-3xl text-center font-got">Game of Thrones - Houses</h1>
-  </header>
-  <main class="container mx-auto p-5">
+  <TheHeader />
+  <main class="container mx-auto py-12 px-4">
     <RouterView />
   </main>
   <footer></footer>
