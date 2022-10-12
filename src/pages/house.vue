@@ -2,6 +2,7 @@
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useFetchData } from '../composables/useFetchData';
+import { useLogError } from '../composables/useLogError';
 import House from '../types/IHouse';
 import CaretLeft from '../components/Icons/caretLeft.vue';
 import CaretRight from '../components/Icons/caretRight.vue';
@@ -17,10 +18,17 @@ onMounted(async () => {
   try {
     await setGoTHouse(String(route.params.id));
   } catch (e) {
+    useLogError(e);
+    pending.value = false;
     error.value = true;
   }
 });
 
+/**
+ * set GoTHouse by fetching data from got api
+ *
+ * @param id
+ */
 const setGoTHouse = async (id: string) => {
   try {
     pending.value = true;
@@ -29,38 +37,58 @@ const setGoTHouse = async (id: string) => {
     )) as House;
     await setNameOfCurrentLord();
     pending.value = false;
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 };
 
 /**
- * Set the name of current lords in a given array of houses.
- * @param houses
+ * Set the name of current lords in a given array of houses
+ *
  */
 const setNameOfCurrentLord = async (): Promise<void> => {
   try {
     if (!GoTHouse.value.currentLord) return; // continue if currentLord is empty
     const { name } = await useFetchData(GoTHouse.value.currentLord);
     GoTHouse.value.currentLord = name;
-  } catch (err) {
+  } catch (e) {
+    useLogError(e);
+    pending.value = false;
     error.value = true;
-    if (import.meta.env.MODE === 'development') {
-      console.error(err);
-    }
   }
 };
 
+/**
+ * Show next house using the current id add by one
+ */
 const next = async () => {
-  const nextId = Number(route.params.id) + 1;
-  router.push(`/house/${String(nextId)}`);
-  await setGoTHouse(String(nextId));
+  try {
+    const nextId = Number(route.params.id) + 1;
+    router.push(`/house/${String(nextId)}`);
+    await setGoTHouse(String(nextId));
+  } catch (e) {
+    useLogError(e);
+    pending.value = false;
+    error.value = true;
+  }
 };
 
+/**
+ * Show previous house using the current id subtract by one
+ */
 const previous = async () => {
-  const nextId = Number(route.params.id) - 1;
-  router.push(`/house/${String(nextId)}`);
-  await setGoTHouse(String(nextId));
+  try {
+    const nextId = Number(route.params.id) - 1;
+    router.push(`/house/${String(nextId)}`);
+    await setGoTHouse(String(nextId));
+  } catch (e) {
+    useLogError(e);
+    pending.value = false;
+    error.value = true;
+  }
 };
 </script>
+
 <template>
   <section>
     <div class="flex justify-between py-2 max-w-3xl mx-auto">
@@ -70,7 +98,7 @@ const previous = async () => {
       >
         <span class="text-gray-500 group-hover:text-black">Back</span>
       </button>
-      <div class="flex gap-2">
+      <div v-if="!error" class="flex gap-2">
         <button
           v-if="route.params.id != '1'"
           @click="previous"
@@ -90,7 +118,7 @@ const previous = async () => {
     </div>
     <SpinnerComponent v-if="pending" class="block mx-auto" />
     <div
-      v-if="!pending"
+      v-if="!pending && !error"
       class="max-w-3xl mx-auto rounded-lg border-2 border-gray-200"
     >
       <div class="px-4 py-5 sm:px-6">
@@ -136,6 +164,7 @@ const previous = async () => {
         </dl>
       </div>
     </div>
+    <div v-if="error" class="text-center">Sorry, something went wrong!</div>
   </section>
 </template>
 
