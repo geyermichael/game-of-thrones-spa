@@ -9,8 +9,9 @@ import House from '../types/IHouse';
  */
 export const useGetHouses = async (page: number = 1): Promise<House[]> => {
   try {
+    const apiBaseURL = 'https://anapioficeandfire.com/api/';
     const houses = (await useFetchData(
-      `https://anapioficeandfire.com/api/houses?page=${page}&pageSize=24`
+      `${apiBaseURL}houses?page=${page}&pageSize=24`
     )) as House[];
     return houses;
   } catch (error) {
