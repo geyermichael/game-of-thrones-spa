@@ -1,7 +1,7 @@
 # Game of Thrones Houses
 
 This is a single page application that provides information about all Game of Thrones Houses.
-You will find aa overview on the homepage and get detailed information by clicking
+You will find an overview on the homepage and get detailed information by clicking
 on a house.
 
 A live version is online under:
