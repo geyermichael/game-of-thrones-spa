@@ -7,5 +7,4 @@ import TheHeader from './components/TheHeader.vue';
   <main class="container mx-auto py-12 px-4">
     <RouterView />
   </main>
-  <footer></footer>
 </template>
