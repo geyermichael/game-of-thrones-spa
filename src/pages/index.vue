@@ -20,7 +20,7 @@ onMounted(async () => {
     GoTHouses.value = await useGetHouses();
     await setNameOfCurrentLords(GoTHouses.value);
     pending.value = false;
-  } catch (e: any) {
+  } catch (e) {
     useLogError(e);
     pending.value = false;
     error.value = true;
@@ -39,7 +39,7 @@ const setNameOfCurrentLords = async (houses: House[]): Promise<void> => {
       const { name } = await useFetchData(house.currentLord);
       house.currentLord = name;
     }
-  } catch (e: any) {
+  } catch (e) {
     error.value = true;
     useLogError(e);
   }
@@ -57,7 +57,7 @@ const loadMoreHouses = async () => {
     await setNameOfCurrentLords(moreHouses);
     GoTHouses.value = GoTHouses.value.concat(moreHouses);
     isLoadingMore.value = false;
-  } catch (e: any) {
+  } catch (e) {
     useLogError(e);
     isLoadingMore.value = false;
     error.value = true;
