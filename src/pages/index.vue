@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import House from '../types/IHouse';
 import { useFetchData } from '../composables/useFetchData';
 import { useGetHouses } from '../composables/useGetHouses';
+import { useLogError } from '../composables/useLogError';
 import CardComponent from '../components/cardComponent.vue';
 import SpinnerComponent from '../components/spinnerComponent.vue';
 
@@ -19,13 +20,16 @@ onMounted(async () => {
     GoTHouses.value = await useGetHouses();
     await setNameOfCurrentLords(GoTHouses.value);
     pending.value = false;
-  } catch (e) {
+  } catch (e: any) {
+    useLogError(e);
+    pending.value = false;
     error.value = true;
   }
 });
 
 /**
- * Set the name of current lords in a given array of houses.
+ * Set the name of current lords in a given array of houses
+ *
  * @param houses
  */
 const setNameOfCurrentLords = async (houses: House[]): Promise<void> => {
@@ -35,29 +39,39 @@ const setNameOfCurrentLords = async (houses: House[]): Promise<void> => {
       const { name } = await useFetchData(house.currentLord);
       house.currentLord = name;
     }
-  } catch (err) {
+  } catch (e: any) {
     error.value = true;
-    if (import.meta.env.MODE === 'development') {
-      console.error(err);
-    }
+    useLogError(e);
+  }
+};
+
+let currentPage = 1;
+/**
+ * Get more houses from the api by next page
+ */
+const loadMoreHouses = async () => {
+  try {
+    isLoadingMore.value = true;
+    currentPage++;
+    const moreHouses = await useGetHouses(currentPage);
+    await setNameOfCurrentLords(moreHouses);
+    GoTHouses.value = GoTHouses.value.concat(moreHouses);
+    isLoadingMore.value = false;
+  } catch (e: any) {
+    useLogError(e);
+    isLoadingMore.value = false;
+    error.value = true;
   }
 };
 
 /**
- * Get more houses from the api by next page
+ * Navigate to house/:id
+ * Using the got api url to extract the id
+ *
+ * @param url
  */
-let currentPage = 1;
-const loadMoreHouses = async () => {
-  isLoadingMore.value = true;
-  const moreHouses = await useGetHouses(currentPage);
-  currentPage++;
-  await setNameOfCurrentLords(moreHouses);
-  GoTHouses.value = GoTHouses.value.concat(moreHouses);
-  isLoadingMore.value = false;
-};
-
 const navigateToHouse = (url: string) => {
-  const id = url.split('/').pop(); // extract the id from api url
+  const id = url.split('/').pop();
   router.push(`/house/${id}`);
 };
 </script>
@@ -77,10 +91,15 @@ const navigateToHouse = (url: string) => {
         @keyup.enter="navigateToHouse(house.url)"
       />
     </div>
-    <button v-if="!pending" @click="loadMoreHouses" id="load-more-btn">
+    <button
+      v-if="!pending && !error"
+      @click="loadMoreHouses"
+      id="load-more-btn"
+    >
       <SpinnerComponent v-if="isLoadingMore" class="text-white h-4 w-4" />
       <span>Load More</span>
     </button>
+    <div v-if="error" class="text-center">Sorry, something went wrong!</div>
   </section>
 </template>
 
