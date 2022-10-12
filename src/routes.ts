@@ -9,5 +9,5 @@ const routes = [
 
 export const router = createRouter({
   history: createWebHistory('/'),
-  routes, // short for `routes: routes`
+  routes,
 });
