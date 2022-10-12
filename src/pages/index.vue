@@ -77,8 +77,8 @@ const navigateToHouse = (url: string) => {
         @keyup.enter="navigateToHouse(house.url)"
       />
     </div>
-    <button @click="loadMoreHouses" id="load-more-btn">
-      <SpinnerComponent v-if="isLoadingMore" class="text-white h-5 w-5" />
+    <button v-if="!pending" @click="loadMoreHouses" id="load-more-btn">
+      <SpinnerComponent v-if="isLoadingMore" class="text-white h-4 w-4" />
       <span>Load More</span>
     </button>
   </section>
