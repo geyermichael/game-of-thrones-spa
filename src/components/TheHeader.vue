@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="container mx-auto text-center p-12">
-      <h1 class="text-3xl font-got capitalize">Game of Thrones Houses - check</h1>
+      <h1 class="text-3xl font-got capitalize">Game of Thrones Houses - it works</h1>
     </div>
   </header>
 </template>
